@@ -1,0 +1,18 @@
+/*
+	 * Filter to force child pages to automatically use the appropriately named template.
+	 * This workaround is necessary because (at least for me) child pages do not
+	 * automatically use their theme the way top-level pages do.
+	 */
+	add_filter( 'page_template', function ( $template ) use ( &$post ) {
+		if(is_page() && $post->post_parent){
+			$locate_template = locate_template( "page-" . $post->post_name . ".php" );
+
+			if(!$locate_template)
+				return $template;
+		} else {
+			return $template;
+		}
+
+
+		return $locate_template;
+	});
