@@ -1,0 +1,16 @@
+/*
+ * Create a custom post type. Place in functions.php
+ */
+function create_post_type_news() {
+  register_post_type( 'news',
+    array(
+      'labels' => array(
+        'name' => __( 'News' ),
+        'singular_name' => __( 'News' )
+      ),
+      'public' => true,
+      'has_archive' => false,
+    )
+  );
+}
+add_action( 'init', 'create_post_type_news' );
