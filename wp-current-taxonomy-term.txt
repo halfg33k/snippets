@@ -15,3 +15,14 @@ $term->taxonomy
 $term->description
 $term->parent
 $term->count
+
+/*
+ * Posts can be filtered by term by placing a tax_query in WP_Query()
+ */
+'tax_query' => array(
+  array( 
+    'taxonomy'=>'locations', 
+    'field'=>'slug', 
+    'terms'=>array($term->slug)
+  )
+)
