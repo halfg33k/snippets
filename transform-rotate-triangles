@@ -1,0 +1,22 @@
+<div class='triangle'></div>
+
+<style>
+.triangle {
+  width: 141px;
+  height: 100px;
+  background: teal;
+  border: 2px solid blue;
+  position: relative;
+  overflow: hidden;
+}
+
+.triangle::after {
+  background: red;
+  content: ' ';
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  transform: rotate(45deg);
+  transform-origin: bottom left;
+}
+</style>
