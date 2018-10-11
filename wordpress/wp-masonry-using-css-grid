@@ -1,0 +1,59 @@
+/**
+ * Masonry layout made using CSS Grid and Javascript. 
+ * Instructions here: https://medium.com/@andybarefoot/a-masonry-style-layout-using-css-grid-8c663d355ebb
+ * Example can be found on "Stories" page of Stafford Rotary (http://www.staffordrotary.org/)
+ *
+ * Make a CSS Grid with really short rows. Each grid item (.grid-item) will have 
+ * a wrapper class (.grid-item-content) around the content. The JS will get
+ * the height of the content within .grid-item-content and calculate how many rows
+ * .grid-item would need to span in order to be displayed fully.
+ *
+ * Having really short rows prevents large amounts of white space between some items.
+ */
+
+// CSS
+.grid-container
+    display: grid
+    grid-auto-rows: 20px;
+    grid-gap: 30px
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr))
+    
+    
+// JS
+function resizeGridItem(item){
+    grid = document.getElementsByClassName("grid-item")[0];
+    rowHeight = parseInt(window.getComputedStyle( grid ).getPropertyValue('grid-auto-rows'));
+    rowGap = parseInt(window.getComputedStyle( grid ).getPropertyValue('grid-row-gap'));
+    rowSpan = Math.ceil((item.querySelector('.grid-item-content').getBoundingClientRect().height+rowGap)/(rowHeight+rowGap));
+    item.style.gridRowEnd = "span "+rowSpan;
+}
+
+function resizeAllGridItems(){
+   allItems = document.getElementsByClassName("stories__story");
+   for( x = 0; x < allItems.length; x++ ){
+      resizeGridItem( allItems[x] );
+   }
+}
+
+window.onload = resizeAllGridItems();
+window.addEventListener("resize", resizeAllGridItems);
+
+// PHP
+<div class="grid-container">
+    <div class="grid-item">
+        <div class="grid-item-content">
+            <img src="<?php the_field( 'featured_image' ); ?>">
+            <h3><?php the_title(); ?></h3>
+            <p><?php if( get_field( 'excerpt' ) ) the_field( 'excerpt' ); else echo mb_strimwidth( get_field( 'content' ), 0, 400, '...' ); ?></p>
+            <a href="<?php the_permalink(); ?>">Read More</a>
+        </div>
+    </div>
+    <div class="grid-item">
+        <div class="grid-item-content">
+            <img src="<?php the_field( 'featured_image' ); ?>">
+            <h3><?php the_title(); ?></h3>
+            <p><?php if( get_field( 'excerpt' ) ) the_field( 'excerpt' ); else echo mb_strimwidth( get_field( 'content' ), 0, 400, '...' ); ?></p>
+            <a href="<?php the_permalink(); ?>">Read More</a>
+        </div>
+    </div>
+</div>
